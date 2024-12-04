@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./configure/db.js";
 import authRoutes from "./routes/auth.route.js";
 import todoItemRoutes from "./routes/todoItem.route.js";
+import userManageRoutes from "./routes/userManage.route.js";
 
 dotenv.config();
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/todoItem", todoItemRoutes);
+app.use("/api/userManage", userManageRoutes);
 
 app.use("/", async (req, res) => {
 	res.send("initial route");
