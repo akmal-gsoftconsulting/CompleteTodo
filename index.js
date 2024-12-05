@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth.route.js";
 import todoItemRoutes from "./routes/todoItem.route.js";
 import userManageRoutes from "./routes/userManage.route.js";
 import listRoutes from "./routes/list.route.js";
+import collaboratorRoutes from "./routes/collaborator.route.js";
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/todoItem", todoItemRoutes);
 app.use("/api/userManage", userManageRoutes);
 app.use("/api/list", listRoutes);
+app.use("/api/collaborator", collaboratorRoutes);
 
 app.use("/", async (req, res) => {
 	res.send("initial route");
