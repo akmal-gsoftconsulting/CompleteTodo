@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 
+import Tasks from './todoItem.model.js';
+
+
 const listSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -7,13 +10,10 @@ const listSchema = new mongoose.Schema({
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', 
+        ref: 'User',
         required: true
     },
-    todoTaskIds: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tasks' 
-    }]
+    todoItem: [Tasks.schema]
 });
 
 const List = mongoose.model('List', listSchema);
