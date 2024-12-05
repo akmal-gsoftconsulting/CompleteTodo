@@ -8,6 +8,7 @@ import listRoutes from "./routes/list.route.js";
 import collaboratorRoutes from "./routes/collaborator.route.js";
 import notificationRoutes from "./routes/notification.route.js";
 import reminderRoutes from "./routes/reminder.route.js";
+import filterRoutes from "./routes/filter.route.js";
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,7 @@ app.use("/api/list", listRoutes);
 app.use("/api/collaborator", collaboratorRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/reminder", reminderRoutes);
+app.use("/api/filter" , filterRoutes);
 
 app.use("/", async (req, res) => {
 	res.send("initial route");
