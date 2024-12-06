@@ -79,15 +79,27 @@ export const updateListByID = async (req, res) => {
         //     return task;
         // });
 
-        await List.findByIdAndUpdate(id, { name: name });
-        // await List.findById(id).todoItem.findByIdAndUpdate(itemid, { status: status });
+        
         await Tasks.findByIdAndUpdate(itemid, { status: status });
 
+        // await List.findByIdAndUpdate(id, { name: name });
+        
+        // await List.findOneAndUpdate(
+        //     { _id: id, "todoItem._id": itemid },
+        //     { $set: { "todoItem.$.status": status } },
+        // );
 
-        await List.findOneAndUpdate(
-            { _id: id, "todoItem._id": itemid }, 
-            { $set: { "todoItem.$.status": status } }, 
+
+        await List.updateOne(
+            { _id: id, "todoItem._id": itemid },
+            {
+                $set: {
+                    name: name,
+                    "todoItem.$.status": status
+                }
+            }
         );
+
 
 
 

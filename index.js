@@ -10,6 +10,7 @@ import notificationRoutes from "./routes/notification.route.js";
 import reminderRoutes from "./routes/reminder.route.js";
 import filterRoutes from "./routes/filter.route.js";
 import tagRoutes from "./routes/tag.route.js";
+import analyticsRoutes from "./routes/analytics.route.js";
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ app.use("/api/notification", notificationRoutes);
 app.use("/api/reminder", reminderRoutes);
 app.use("/api/filter" , filterRoutes);
 app.use("/api/tag" , tagRoutes);
+app.use("/api/analytics" , analyticsRoutes);
 
 app.use("/", async (req, res) => {
 	res.send("initial route");
