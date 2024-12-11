@@ -7,7 +7,6 @@ export const createTag = async (req, res) => {
         const userId = req.user.userId;
         const todoItem = await Tasks.find( {title : { $in : titleArray }}  )
         const tag = new Tag({ userId, name, todoItem });
-        // console.log(tag);
         
         const result = await tag.save();
         res.status(200).json("Tag created successfully");

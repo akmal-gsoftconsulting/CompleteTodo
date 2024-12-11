@@ -13,9 +13,6 @@ export const createCollaborator = async (req, res) => {
             return res.status(404).json({ message: 'Collaborator not found' });
         }
 
-
-
-
         const list = await List.find({ userId, name: { $in: listName } });
 
 
@@ -31,12 +28,9 @@ export const createCollaborator = async (req, res) => {
         });
 
 
-        // console.log(newCollaborator);
-
-
         await newCollaborator.save();
 
-        res.status(201).json({ message: 'Collaborator added successfully' });
+        res.status(201).json({ status:201 ,  message: 'Collaborator added successfully' , data : newCollaborator._id});
 
 
     } catch (error) {
@@ -55,7 +49,7 @@ export const deleteCollaborator = async (req, res) => {
             return res.status(404).json({ message: 'Collaborator not found' });
         }
         await Collaborator.findByIdAndDelete(id);
-        res.status(200).json({ message: 'Collaborator deleted successfully' });
+        res.status(200).json({ status :200 , message: 'Collaborator deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting collaborator', error: error.message });
     }
@@ -87,11 +81,7 @@ export const getCollaborators = async (req, res) => {
         collaborators = collaborators.map(collaborator =>collaborator.email );
 
 
-
-        // console.log(collaborators);
-
-
-        res.status(200).json(collaborators);
+        res.status(200).json({status: 200 , message : "Collaborators for specific list" , data: collaborators });
     } catch (error) {
         res.status(500).json({ message: 'Error getting collaborators', error: error.message });
     }

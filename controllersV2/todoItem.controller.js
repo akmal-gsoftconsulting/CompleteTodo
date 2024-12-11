@@ -47,8 +47,6 @@ export const updateTodo = async (req, res) => {
     try {
         const { id } = req.params;
         const { status, dueDate } = req.body;
-    
-        // Build the update object
         const updateFields = {};
     
         if (status !== null && status !== undefined) {

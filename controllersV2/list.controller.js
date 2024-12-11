@@ -26,7 +26,7 @@ export const createList = async (req, res) => {
 
         await list.save();
 
-        res.status(201).json({ message: "List created successfully" });
+        res.status(201).json({status:200 , message: "List created successfully" , list_id : list._id});
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -38,7 +38,7 @@ export const getAllList = async (req, res) => {
     try {
         const userId = req.user.userId;
         const lists = await List.find({ userId }, { name: 1, _id: 0 });
-        res.status(200).json(lists);
+        res.status(200).json({status:200 , message : "all list" ,  lists:lists});
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -51,7 +51,7 @@ export const getListByID = async (req, res) => {
         if (!list) {
             return res.status(404).json({ message: "List not found" });
         }
-        res.status(200).json(list);
+        res.status(200).json({status:200 , message : "list for given id"  ,   list:list});
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -61,23 +61,6 @@ export const updateListByID = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, itemid, status } = req.body;
-
-
-        // var list = await List.findById(id);
-
-        // if (!list) {
-        //     return res.status(404).json({ message: "List not found" });
-        // }
-
-        // var index = 0;
-
-        // list.todoTask = list.todoTask.map((task) => {
-        //     if (task._id == itemid) {
-        //         task.status = status;
-        //         index = list.todoTask.indexOf(task);
-        //     }
-        //     return task;
-        // });
 
         
         await Tasks.findByIdAndUpdate(itemid, { status: status });
@@ -89,22 +72,7 @@ export const updateListByID = async (req, res) => {
             { $set: { "todoItem.$.status": status } },
         );
 
-
-        // await List.updateOne(
-        //     { _id: id, "todoItem._id": itemid },
-        //     {
-        //         $set: {
-        //             name: name,
-        //             "todoItem.$.status": status
-        //         }
-        //     }
-        // );
-
-
-
-
-
-        res.status(200).json({ message: "List and item updated successfully" });
+        res.status(200).json({ status : 200 , message: "List and item updated successfully" });
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -118,7 +86,7 @@ export const deleteListByID = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await List.deleteOne({ _id: id });
-        res.status(200).json(result);
+        res.status(200).json({status:200 , message : "item deleted" , result:result });
     } catch (error) {
         res.status(500).send(error.message);
     }

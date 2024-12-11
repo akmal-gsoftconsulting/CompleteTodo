@@ -6,7 +6,6 @@ import { ObjectId } from "mongodb";
 export const signup = async (req, res) => {
 	const { name, email, password } = req.body;
 	try {
-		// const userExists = await User.findOne({ email }); 
         const userExists = await User.aggregate([
             { $match: { email: email } }
         ]);
@@ -39,15 +38,8 @@ export const login = async (req, res) => {
 		const user = await User.findOne({ email });
         
 		if (user && (await user.comparePassword(password))) {
-			// console.log(user);
-			// const token = jwt.sign(user , process.env.JWT_SECRET);
 			const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-		
-			res.cookie("token", token, {
-				httpOnly: true,
-				secure: true,
-				sameSite: "strict"
-			});
+			
 			res.status(200).json({ token, "message": "Login successful" });
 
 		} else {
@@ -59,19 +51,13 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-	const token = req.headers.authorization?.split(' ')[1]; // Get token from "Bearer <token>"
+	const token = req.headers.authorization?.split(' ')[1]; 
 
 	if (!token) {
 		return res.status(401).json({ message: 'No token provided' });
 	}
 
 	try {
-		// Decode the token to see its contents
-		// const decoded = jwt.verify(token, process.env.JWT_SECRET);
-		// console.log('Decoded Token:', decoded);
-
-		// Clear the token cookie (if needed)
-		res.clearCookie('token');
 		res.status(200).json({ message: 'Logged out successfully' 
             , success : "true"
         });
@@ -90,25 +76,17 @@ export const forgotpassword = async (req, res) => {
 		var transporter = nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
-				user: 'muhammadakmal@gsoftconsulting.com',
-				pass: 'emir clcj daxi bfia'
+				user: process.env.GLOBAL_EMAIL ,
+				pass: process.env.GLOBAL_PASSWORD
 			}
-		});
+		});			
 
 		var mailOptions = {
-			from: 'muhammadakmal@gsoftconsulting.com',
+			from: process.env.GLOBAL_EMAIL,
 			to: email,
 			subject: 'Sending Email for reset password',
 			text: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRmZmM4MWY0YTQ2ZDE3NzUwZDUwNDIiLCJpYXQiOjE3MzMzMTA3NDJ9.U1G1vmHIza7l7Hf3-fzkWOyqNJJMormXCNy6_jRVOlY'
 		};
-
-		// transporter.sendMail(mailOptions, function (error, info) {
-		// 	if (error) {
-		// 		console.log(error);
-		// 	} else {
-		// 		console.log('Email sent: ' + info.response);
-		// 	}
-		// });
 
 		try {
 			const info = await transporter.sendMail(mailOptions);

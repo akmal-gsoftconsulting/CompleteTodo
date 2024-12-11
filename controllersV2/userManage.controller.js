@@ -22,7 +22,7 @@ export const getUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        res.status(200).json(user);
+        res.status(200).json({  status:200   ,message : "profile of log-in user"  , profile:user});
 
 	} catch (error) {
 		console.error('Error decoding token:', error);
@@ -42,7 +42,7 @@ export const updateUser = async (req, res) => {
         if(email) user.email = email;
 
         await user.save();
-        res.status(200).json({ message: 'User updated successfully' });
+        res.status(200).json({status:200, message: 'User updated successfully' , data: user._id});
     } catch (error) {
         console.error('Error updating user:', error);
         res.status(500).json({ message: 'Error updating user' });

@@ -6,7 +6,7 @@ export const getNotifications = async (req, res) => {
         const userId = req.user.userId;
         const notifications = await Notification.find({ userId , isRead: false}, 
             { type: 1, message: 1, isRead: 1, createdAt: 1 });
-        res.status(200).json(notifications);
+        res.status(200).json({status : 200 ,  message: "all notifications for login users"   ,  notifications:notifications});
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -17,7 +17,7 @@ export const readNotification = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await Notification.updateOne({ _id: id }, { isRead: true });
-        res.status(200).json(result);
+        res.status(200).json({status:200 ,  message:"notification readed"  , result:result});
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -27,7 +27,7 @@ export const deleteNotification = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await Notification.deleteOne({ _id: id });
-        res.status(200).json(result);
+        res.status(200).json({status:200 ,  message:"notification deleted"  , result:result});
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -40,7 +40,7 @@ export const createNotification = async (req, res) => {
         const userId = req.user.userId;
         const notification = new Notification({ userId, type, message });
         const result = await notification.save();
-        res.status(200).json(result);
+        res.status(200).json({status:200 ,  message:"notification created"  , result:result});
     } catch (error) {
         res.status(500).send(error.message);
     }
